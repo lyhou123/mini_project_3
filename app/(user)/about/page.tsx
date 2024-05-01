@@ -1,5 +1,14 @@
 import CarouselComponent from '@/components/hero/courolsel'
+import { Metadata } from 'next';
 import React from 'react'
+export const metadata: Metadata = {
+    title: "Mini Project Prepare for final Project ",
+    description: "This is About page section",
+    openGraph:{
+        images:"https://istad.co/resources/img/CSTAD_120.png",
+        description:"This is a mini project to prepare for the final project."
+    }
+  };
 export default function Page() {
   return (
     <main>

@@ -4,6 +4,8 @@ import "../globals.css";
 import NavbarComponent from "@/components/navbar/navbar";
 import FooterComponent from "@/components/footer/footer";
 import  StoreProvider  from "../StoreProvider";
+import SessionWrapper from "../SesionProvider";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <SessionWrapper>
       <body className={inter.className}>
       <StoreProvider>
       <header>
@@ -34,6 +37,7 @@ export default function RootLayout({
       </footer>
       </StoreProvider>
       </body>
+      </SessionWrapper>
     </html>
   );
 }

@@ -7,7 +7,7 @@ export default function Products() {
   const[products,setProduct]=useState<ProductType[]>([])
   const[currentPage,setCurrentPage] = useState(1)
   const router = useRouter()
-  const pageSize = 10
+  const pageSize = 8
 
   
 

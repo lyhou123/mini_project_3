@@ -8,6 +8,9 @@ export default function Products() {
   const[currentPage,setCurrentPage] = useState(1)
   const router = useRouter()
   const pageSize = 10
+
+  
+
   useEffect(()=>{
     fetch(`${process.env.NEXT_PUBLIC_DJANGO_API_URL}/api/products/?page=${currentPage}&page_size=${pageSize}`)
     .then(res=>res.json())

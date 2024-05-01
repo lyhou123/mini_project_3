@@ -8,7 +8,7 @@ type CounterState = {
     value: 0,
  }   
 
-const counter = createSlice({
+export const counter = createSlice({
    name:'counter',
    initialState:initailState,
     reducers:{

@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
+import couterSlice from './feature/counter/couterSlice'
 // create store
 export const makeStore = () => {
   return configureStore({
-    reducer: {},
+    reducer: {
+      // Add reducers 
+      counter: couterSlice,
+    },
   })
 }
 

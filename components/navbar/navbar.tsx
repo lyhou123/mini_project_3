@@ -7,6 +7,7 @@ import {usePathname} from "next/navigation";
 import Link from "next/link";
 import '@/app/globals.css'
 import { IoCart } from "react-icons/io5";
+import {  useAppSelector } from "@/redux/hooks";
 type MenuItems = {
     title:string,
     path:string,
@@ -14,6 +15,7 @@ type MenuItems = {
 }
 export default function NavbarComponent() {
     const[menu,setMenu] = useState<MenuItems[]>(MenuList)
+    const count = useAppSelector((state)=> state.counter.value);
     const pathName = usePathname();
     return (
         <Navbar >
@@ -22,6 +24,9 @@ export default function NavbarComponent() {
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Cambo Product</span>
             </NavbarBrand>
              <div className="flex md:order-2">
+                <div>
+                    <span className="text-xl text-yellow-500 relative top-[-10px] left-8">{count}</span>
+                </div>
                 <div>   
                     <IoCart className="text-5xl mr-2 text-yellow-500" />
                     </div>

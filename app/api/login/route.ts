@@ -5,11 +5,12 @@ export async function POST(req:NextRequest)
 {
   const body = await req.json();
 
-  const {email , password1} = body;
+  const {email , password} = body;
 
    console.log("body: ",body)
-    
-    console.log("password: ",password1)
+
+
+    console.log("email: ",email)
 
    
      const respone = await fetch(
@@ -18,8 +19,9 @@ export async function POST(req:NextRequest)
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password1})
+        body: JSON.stringify({ email, password:password})
       }
+
      );
 
    if(!respone.ok)

@@ -10,18 +10,18 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 type ValueTypes = {
 	email: string;
-	password1: string;
+	password: string;
 };
 
 const initialValues: ValueTypes = {
 	email: "",
-	password1: "",
+	password: "",
 };
 
 
 const validationSchema = Yup.object().shape({
 	email: Yup.string().email("Invalid email").required("Required"),
-	password1: Yup.string().required("Required"),
+	password: Yup.string().required("Required"),
 });
 
 export default function Login() {
@@ -92,14 +92,14 @@ export default function Login() {
 					</div>
 					{/* Password1 */}
 					<div className="mb-5">
-						<label className={`${style.label}`} htmlFor="password1">
+						<label className={`${style.label}`} htmlFor="password">
 							Password
 						</label>
 						<div className="relative">
 							<Field
 								type={showPassword ? "text" : "password"}
-								name="password1"
-								id="password1"
+								name="password"
+								id="password"
 								className={`${style.input}`}
 							/>
 							{!showPassword ? (
@@ -115,7 +115,7 @@ export default function Login() {
 							)}
 						</div>
 						<ErrorMessage
-							name="password1"
+							name="password"
 							component="section"
 							className={`${style.error}`}
 						/>

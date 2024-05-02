@@ -1,5 +1,4 @@
-"use client";
-
+'use client'
 import React, { useState } from "react";
 import style from "./style.module.css";
 
@@ -36,22 +35,23 @@ export default function Login() {
 	//  handle submit
 	const handleSubmit = (values: ValueTypes) => {
 		setLoading(true);
-		fetch(`http://localhost:3000/api/login`, {
+		fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(values),
 		})
-			.then((res) => res.json())
+			.then(res=>res.json())
 			.then((data) => {
 				console.log(data);
 				setLoading(false);
 			})
 			.catch((error) => {
-				console.log(error);
+				console.error("Error:", error);
 				setLoading(false);
-			});
+			});	
+			
 	};
 
 	if (loading) {

@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import { ConfirmIcon } from "@/components/icons/FontAwsome";
 type Props = {
 	params: {

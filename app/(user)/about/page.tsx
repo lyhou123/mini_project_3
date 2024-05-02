@@ -1,3 +1,4 @@
+import Feedback from '@/components/feedback/feedback';
 import CarouselComponent from '@/components/hero/courolsel'
 import { Metadata } from 'next';
 import React from 'react'
@@ -81,7 +82,7 @@ export default function Page() {
     </figure>
 </div>
 <section>
-   <CarouselComponent/>
+   <Feedback/>
   </section>
     </main>
   )

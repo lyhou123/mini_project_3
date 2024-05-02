@@ -12,11 +12,11 @@ export function middleware(request: NextRequest) {
 	console.log("=> Session: ", session);
 
 	if (!session) {
-		return NextResponse.redirect(new URL("/", request.url).toString());
+		return NextResponse.redirect(new URL("/login", request.url).toString());
 	}
 }
 
 // multiple middleware
 export const config = {
-	matcher: ["/dashboard"],
+	matcher: ["/myshop"],
 };

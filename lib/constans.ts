@@ -24,3 +24,9 @@ export type ProductDetailType={
     searchParams: { [key: string]: string | string[] | undefined }
 }
 export const placeHolderImage="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?sl=1"
+
+export type ImageType={
+    id:number,
+    image:string,
+    name:string
+}

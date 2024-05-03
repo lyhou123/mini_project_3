@@ -6,8 +6,12 @@ export const productApi = ecommerceApi.injectEndpoints({
 		// get all products
 	                   
 		getProducts: builder.query<any, { page: number; pageSize: number }>({
-			query: ({ page = 1, pageSize = 10 }) =>
-				`api/products/?page=${page}&page_size=${pageSize}`,
+			query: ({ page = 1, pageSize = 10 }) =>({
+				url: `api/products/my_products/?page=${page}&page_size=${pageSize}`,
+			    method: "GET",
+				
+			})
+			
 		}),
 		// get single product
 		getProductById: builder.query<any, number>({
@@ -25,6 +29,15 @@ export const productApi = ecommerceApi.injectEndpoints({
 				body: updatedProduct,
 			}),
 		}),
+
+		// getImages
+
+		getImages: builder.query<any, { page: number; pageSize: number }>({
+			query: ({ page = 1, pageSize = 10 }) => ({
+				url: `api/file/product/?page=${page}&page_size=${pageSize}`,
+				method: "GET",
+			}),
+		}),
 	})
 })
 
@@ -32,4 +45,5 @@ export const {
 	useGetProductsQuery,
 	useGetProductByIdQuery,
 	useUpdateProductMutation,
+	useGetImagesQuery
 } = productApi;

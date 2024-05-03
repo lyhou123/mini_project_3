@@ -10,5 +10,8 @@ git add .
 # Commit changes with the provided message
 git commit -m "$commit_message"
 
+
 # Print a message indicating success
 echo "Changes committed successfully!"
+
+git push 

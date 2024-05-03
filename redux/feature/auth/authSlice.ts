@@ -16,5 +16,5 @@ const authSlice =createSlice({
     })
 });
 export const {setAssessToken} = authSlice.actions;
-export const data= ((state:RootState)=>state.auth.token)
+export const selecToken= ((state:RootState)=>state.auth.token)
 export default authSlice.reducer;

@@ -4,10 +4,11 @@ import style from "./style.module.css";
 
 import { IoEyeOffSharp } from "react-icons/io5";
 import { IoEyeSharp } from "react-icons/io5";
-
+import { selecToken, setAssessToken } from "@/redux/feature/auth/authSlice";
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
 type ValueTypes = {
 	email: string;
 	password: string;
@@ -27,6 +28,8 @@ const validationSchema = Yup.object().shape({
 export default function Login() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const dispatch = useDispatch();
+	const[user,setUser]=useState(null);
 	const handleShowPassword = () => {
 		setShowPassword(!showPassword);
 		// Toggle password visibility
@@ -46,6 +49,9 @@ export default function Login() {
 			.then((data) => {
 				console.log(data);
 				setLoading(false);
+				dispatch(setAssessToken(data.accessToken));
+				setUser(data.user);
+				console.log(data.accessToken);
 			})
 			.catch((error) => {
 				console.error("Error:", error);
@@ -53,7 +59,7 @@ export default function Login() {
 			});	
 			
 	};
-
+    
 	if (loading) {
 		return (
 			<div className={`${style.container}`}>

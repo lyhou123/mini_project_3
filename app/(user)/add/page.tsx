@@ -4,35 +4,10 @@ import * as Yup from "yup";
 import style from "./style.module.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ProductPostType ,initialValues } from "@/lib/constans";
+import { useCreateProductMutation } from "@/redux/service/product";
+import { on } from "events";
 
-const BASE_URL = process.env.NEXT_PUBLIC_DJANGO_API_URL;
-const ACCESS_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN;
-
-type CatageoryType = {
-	name: string;
-	icon: string;
-};
-
-type ProductPostType = {
-	category: CatageoryType;
-	name: string;
-	desc: string;
-	image: string;
-	price: number;
-	quantity: number;
-};
-
-const initialValues = {
-	categoryName: "",
-	categoryIcon: "",
-	name: "",
-	desc: "",
-	image: "",
-	price: 0,
-	quantity: 0,
-	fileIcon: null,
-	fileProduct: null,
-};
 
 const FILE_SIZE = 1024 * 1024 * 2; // 2MB
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
@@ -77,43 +52,25 @@ const validationSchema = Yup.object().shape({
 
 export default function Product() {
 	const router=useRouter()
-	const handleUploadeIcon = async (
-		file: any,
-		name: any,
-		typeFile: "category" | "product"
-	) => {
-		const formData = new FormData();
-		formData.append("name", name);
-		formData.append("image", file);
 
-		const rest = await fetch(`${BASE_URL}/api/file/${typeFile}/`, {
-			method: "POST",
-			headers: {
-				Authorization: `Bearer ${ACCESS_TOKEN}`,
-			},
-			body: formData,
-		});
-
-		const data = await rest.json();
-		return data.image;
-	};
-
-	const handleSubmitProudct = async (value: ProductPostType) => {
-		const res = await fetch(`${BASE_URL}/api/products/`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${ACCESS_TOKEN}`,
-			},
-			body: JSON.stringify(value),
-		});
-        if(!res.ok){
-          {router.push(`/dashboard`)}
-		}
-        const data = await res.json()
-
-        console.log("product uploade: ", data)
-	};
+	//fetch data from RTK query
+	
+	const[createProduct,{data,error}]=useCreateProductMutation()
+	//submit form
+	const handleCreateProduct = async (values:any) =>({
+		createProduct:({
+			createProduct:{
+				categoryName:values.categoryName,
+				name:values.name,
+				desc:values.desc,
+				image:values.fileProduct,
+				price:values.price,
+				quantity:values.quantity,
+				fileIcon:values.fileIcon
+			}
+		})
+		
+	})
 
 	return (
 		<main className={`${style.container}`}>
@@ -121,38 +78,8 @@ export default function Product() {
 				initialValues={initialValues}
 				validationSchema={validationSchema}
 				onSubmit={async (values:any) => {
-
-					// upload file icon
-					const fileIcon = values.fileIcon;
-					const categoryIcon = await handleUploadeIcon(
-						fileIcon,
-						values.categoryName,
-						"category"
-					);
-
-					// upload file product
-					const fileProduct = values.fileProduct;
-					const productImage = await handleUploadeIcon(
-						fileProduct,
-						values.name,
-						"product"
-					);
-					
-					// create product post
-                    const productPost: ProductPostType = {
-                        category: {
-                            name: values.categoryName,
-                            icon: categoryIcon,
-                        },
-                        name: values.name,
-                        desc: values.desc,
-                        image: productImage,
-                        price: values.price,
-                        quantity: values.quantity,
-                    }
-
-                    // post product
-                    handleSubmitProudct(productPost)
+					console.log(values);
+                
 				}}
 			>
 				{({ setFieldValue }:any) => (
@@ -160,7 +87,7 @@ export default function Product() {
 						
 						{/* Product Name */}
                         <div className="mb-4">
-                            <button className='text-yellow-500'>Back</button>
+                            <button onClick={()=>router.push(`/myshop`)} className='text-yellow-500'>Back</button>
                         </div>
                         <div className={`${style.title}`}>
                             <div>
@@ -305,10 +232,10 @@ export default function Product() {
 						</div>
 
 						{/* button submit */}
-						<button onClick={()=>router.push(`/dashboard`)} type="submit" className={`${style.button}`} >
+						<button type="submit" className={`${style.button}`} >
 							Submit
 						</button>
-						<button onClick={()=>router.push(`/dashboard`)} type="submit" className='bg-red-600 text-white px-3 py-2 ml-2 rounded-lg' >
+						<button onClick={()=>router.push(`/myshop`)} type="submit" className='bg-red-600 text-white px-3 py-2 ml-2 rounded-lg' >
 							Cancel
 						</button>
                         </div>

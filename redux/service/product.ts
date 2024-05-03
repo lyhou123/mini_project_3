@@ -30,14 +30,26 @@ export const productApi = ecommerceApi.injectEndpoints({
 			}),
 		}),
 
-		// getImages
-
-		getImages: builder.query<any, { page: number; pageSize: number }>({
-			query: ({ page = 1, pageSize = 10 }) => ({
-				url: `api/file/product/?page=${page}&page_size=${pageSize}`,
-				method: "GET",
+		// delete product
+		deleteProduct: builder.mutation<any, number>({
+			query: (id:number) => ({
+				url: `/api/products/${id}/`,
+				method: "DELETE",
 			}),
 		}),
+
+		//create product
+		createProduct: builder.mutation<any, object>({
+			query: (newProduct:object) => ({
+				url: `/api/products/`,
+				method: "POST",
+				body: newProduct,
+			}),
+		}),
+
+	
+
+	
 	})
 })
 
@@ -45,5 +57,7 @@ export const {
 	useGetProductsQuery,
 	useGetProductByIdQuery,
 	useUpdateProductMutation,
-	useGetImagesQuery
+	useDeleteProductMutation,
+	useCreateProductMutation
+	
 } = productApi;

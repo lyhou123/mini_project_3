@@ -5,13 +5,14 @@ import { useGetImagesQuery , useGetIconsQuery } from '@/redux/service/images'
 export default function Dropdown() {
    
     const [selectedPhoto, setSelectedPhoto] = useState(null);
+    const [selectedIcon, setSelectedIcon] = useState(null);
     const[props,setProps]=useState([])
     const[icons,setIcons]=useState([])
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
     const{data:data,isLoading:isLoading,isFetching:isFethching}=useGetImagesQuery({page:page,pageSize:pageSize}) 
 
-    //
+  ///fetch icons
      
     const{data:data1,isLoading:isLoading1,isFetching:isFetching1}=useGetIconsQuery({page:page,pageSize:pageSize})
     useEffect(()=>{
@@ -32,9 +33,17 @@ export default function Dropdown() {
         }
     },[data,isLoading])
 
-   const handleSelect=(index:number)=>{
-         setSelectedPhoto(props[index].image)
-   }
+
+const handleSelect = (index: number, props: any, icons: any, type: string) => {
+    if (type === 'selectImage') {
+        setSelectedPhoto(props[index].image);
+        console.log(props[index].image)
+    } else if (type === 'data1Icon') {
+        setSelectedIcon(icons[index].image);
+        console.log(icons[index].image)
+    }
+};
+
 
    const nextPage = () => {
     setPage(page + 1);
@@ -46,10 +55,10 @@ const prevPage = () => {
     }
 };
 
-const renderPageNumbers = () => {
+const renderPageNumbers = (data:any) => {
     const pagesToShow = [];
     const totalPageCount = Math.ceil(data?.total / pageSize);
-    const maxPageNumberToShow = 5; // You can adjust this number based on your preference
+    const maxPageNumberToShow = 5; 
 
     let startPage = Math.max(1, page - Math.floor(maxPageNumberToShow / 2));
     let endPage = Math.min(totalPageCount, startPage + maxPageNumberToShow - 1);
@@ -90,7 +99,7 @@ const renderPageNumbers = () => {
     </summary>
      {props.map((image:ImageType,index)=>
                 <div key={index} className="flex items-center justify-between gap-4 p-4 bg-gray-50">
-                    <img src={image.image} alt={image.name} className="w-20 h-20 object-cover rounded-lg" onClick={()=>handleSelect(index)}/>
+                    <img src={image.image} alt={image.name} className="w-20 h-20 object-cover rounded-lg" onClick={()=>handleSelect(index,props,data1,'selectImage')}/>
                     <h3 className="text-gray-900">{image.name}</h3>
                 </div>
         
@@ -98,12 +107,12 @@ const renderPageNumbers = () => {
 
 <div className="flex justify-center p-4">
                     <button onClick={prevPage} disabled={page === 1} className="px-4 py-2 mx-1 rounded-lg">Previous</button>
-                    {renderPageNumbers()}
+                    {renderPageNumbers(data)}
                     <button onClick={nextPage} disabled={isLoading || isFethching} className="px-4 py-2 mx-1 rounded-lg">Next</button>
                 </div>
   </details>
   {selectedPhoto && <img src={selectedPhoto} alt="" />}
-
+   <div className='mt-4'></div>
   <details className="group [&_summary::-webkit-details-marker]:hidden mx-auto" open>
     <summary
       className="flex  mx-auto cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-gray-50 p-4 text-gray-900"
@@ -122,17 +131,18 @@ const renderPageNumbers = () => {
     </summary>
     {icons.map((image:ImageType,index)=>
                     <div key={index} className="flex items-center justify-between gap-4 p-4 bg-gray-50">
-                        <img src={image.image} alt={image.name} className="w-20 h-20 object-cover rounded-lg" onClick={()=>handleSelect(index)}/>
+                        <img src={image.image} alt={image.name} className="w-20 h-20 object-cover rounded-lg" onClick={()=>handleSelect(index,props,icons,'data1Icon')}/>
                         <h3 className="text-gray-900">{image.name}</h3>
                     </div>
             
         )}
         <div className="flex justify-center p-4">
                     <button onClick={prevPage} disabled={page === 1} className="px-4 py-2 mx-1 rounded-lg">Previous</button>
-                    {renderPageNumbers()}
+                    {renderPageNumbers(data1)}
                     <button onClick={nextPage} disabled={isLoading1 || isFetching1} className="px-4 py-2 mx-1 rounded-lg">Next</button>
                 </div>
         </details>
+        {selectedIcon && <img src={selectedIcon} alt="" />}
 </main>
   )
 }

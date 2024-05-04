@@ -3,13 +3,15 @@ import couterSlice from './feature/counter/couterSlice'
 import tokenSlice from './feature/auth/authSlice'
 import { productApi } from './service/product'
 
+
 // create store
 export const makeStore = () => {
   return configureStore({
     reducer: {
         [productApi.reducerPath]: productApi.reducer,
         counter: couterSlice,
-        auth:tokenSlice
+        auth:tokenSlice,
+       
         
     },
     middleware: (getDefaultMiddleware) =>getDefaultMiddleware().concat(productApi.middleware)

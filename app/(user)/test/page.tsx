@@ -1,6 +1,6 @@
 'use client'
 import Dropdown from '@/components/dropdown/dropdown'
-import { useGetImagesQuery } from '@/redux/service/product'
+import { useGetImagesQuery } from '@/redux/service/images'
 import React, { useEffect, useState } from 'react'
 import { ImageType } from '@/lib/constans'
 export default function Page() {

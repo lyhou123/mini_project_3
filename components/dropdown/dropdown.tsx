@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react'
 import { ImageType } from '@/lib/constans'
 import { useGetImagesQuery , useGetIconsQuery } from '@/redux/service/images'
+import Product from '@/app/(user)/add/page';
+import { useAppDispatch } from '@/redux/hooks';
 export default function Dropdown() {
    
     const [selectedPhoto, setSelectedPhoto] = useState(null);
@@ -10,6 +12,7 @@ export default function Dropdown() {
     const[icons,setIcons]=useState([])
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
+
     const{data:data,isLoading:isLoading,isFetching:isFethching}=useGetImagesQuery({page:page,pageSize:pageSize}) 
 
   ///fetch icons
@@ -24,8 +27,7 @@ export default function Dropdown() {
 
 
     const totalPages = Math.ceil(data?.total/ pageSize) || 4;
-    console.log(data?.total)
-    console.log(totalPages)
+   
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
     useEffect(()=>{
         if(!isLoading && data){
@@ -37,12 +39,16 @@ export default function Dropdown() {
 const handleSelect = (index: number, props: any, icons: any, type: string) => {
     if (type === 'selectImage') {
         setSelectedPhoto(props[index].image);
-        console.log(props[index].image)
+     
+   
     } else if (type === 'data1Icon') {
         setSelectedIcon(icons[index].image);
-        console.log(icons[index].image)
+      
+     
     }
 };
+
+  
 
 
    const nextPage = () => {

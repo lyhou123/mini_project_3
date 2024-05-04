@@ -8,6 +8,7 @@ import "@/app/globals.css"
 import { SearchComponent } from '@/components/seach_button/searchButton';
 import { useDeleteProductMutation, useGetProductsQuery } from '@/redux/service/product';
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { text } from 'stream/consumers';
 
 const placeHolderImage = 'https://via.placeholder.com/150'
 
@@ -90,9 +91,20 @@ const handleDelete=(id:number)=>{
       name: "Action", 
       selector: row => 
         <React.Fragment> 
-          <button className='bg-blue-700 text-base text-white py-2 px-4 rounded mr-1'onClick={()=>ProductDetail(row)}>view</button> 
-           {/* <button className='bg-green-700 text-base text-white py-2 px-4 rounded mr-1' onClick={() =>router.push(`/edit/${row.id}`)}>Edit</button> */}
-           <button className='bg-red-700 text-base text-white py-2 px-4 rounded mr-1' onClick={()=>handleDelete(row.id)}>Delete</button> 
+
+           <div className="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1">
+  <button  className="inline-block rounded-md px-4 py-2 text-sm text-gray-500 hover:text-gray-700 focus:relative" >
+    Edit
+  </button>
+
+  <button onClick={()=>ProductDetail(row)} className="inline-block rounded-md px-4 py-2 text-sm text-blue-700 hover:text-gray-700 focus:relative" >
+    View
+  </button>
+
+  <button onClick={()=>handleDelete(row.id)} className="inline-block rounded-md bg-white px-4 py-2 text-sm text-red-500 shadow-sm focus:relative">
+  Delete
+  </button>
+</div>
         </React.Fragment>
     } 
     
@@ -140,7 +152,7 @@ const handleDelete=(id:number)=>{
         </Modal.Body>
       </Modal>
       </section>
-      <DataTable className=' container mx-auto'  progressPending={loading} customStyles={customStyles}	columns={columns} data={products} pagination persistTableHead/>
+      <DataTable className=''  progressPending={loading} customStyles={customStyles}	columns={columns} data={products} pagination persistTableHead/>
     </main>
   )
 }
@@ -160,8 +172,9 @@ const handleDelete=(id:number)=>{
     },
     cells: {
       style: {
-        paddingLeft: "20px",
+        textAlign: "center",
         fontSize: "13px",
+        
         
       },
     },

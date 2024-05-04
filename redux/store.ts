@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import couterSlice from './feature/counter/couterSlice'
 import tokenSlice from './feature/auth/authSlice'
 import { productApi } from './service/product'
+import cartSlice from './feature/addToCart/cartSlice'
 
 
 // create store
@@ -11,6 +12,7 @@ export const makeStore = () => {
         [productApi.reducerPath]: productApi.reducer,
         counter: couterSlice,
         auth:tokenSlice,
+        cart:cartSlice
        
         
     },

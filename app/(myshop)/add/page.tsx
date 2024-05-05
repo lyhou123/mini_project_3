@@ -9,6 +9,8 @@ import { useGetIconsQuery, useGetImagesQuery, useUploadImageMutation } from "@/r
 import { useCreateProductMutation } from "@/redux/service/product";
 import { ToastContainer, toast } from "react-toastify";
 
+import { Dropdown } from "flowbite-react";
+
 
 
 
@@ -185,7 +187,11 @@ const renderPageNumbers = (data:any) => {
                             </button>
                         </div>
                         <div>
-                            <button onClick={()=>router.push(`/uploadimage`)} className='bg-yellow-500 hover:bg-transparent hover:text-red-500 text-white text-base rounded-lg py-2 px-3'>Upload Image</button>
+                        <Dropdown color='yellow'  label="Dropdown button">
+		                 <Dropdown.Item className="text-yellow-500"  onClick={()=>router.push(`/uploadimage`)}>Product Image</Dropdown.Item>
+		                 <Dropdown.Item className="text-yellow-500" onClick={()=>router.push(`/uploadIcon`)}>Product Icon</Dropdown.Item>
+	                      </Dropdown>
+                          
                         </div>
 
                             </div>

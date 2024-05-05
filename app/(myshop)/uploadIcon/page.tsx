@@ -2,11 +2,12 @@
 import React, { useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import style from "@/app/(myshop)/uploadIcon/style.module.css";
-import { useUploadImageMutation } from '@/redux/service/images';
+import style from "./style.module.css";
+import { useUploadIconMutation, useUploadImageMutation } from '@/redux/service/images';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { Dropdown } from "flowbite-react";
+import { CiCamera } from "react-icons/ci";
 
 const FILE_SIZE = 1024 * 1024 * 2; // 2MB
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
@@ -42,7 +43,7 @@ const validationSchema = Yup.object().shape({
 
 export default function page() {
   
- const[uploadImage,{data,error}]=useUploadImageMutation();
+ const[uploadImage,{data,error}]=useUploadIconMutation();
 
  const handleUploadImage = async (file:any, name:any) => {
     const formData = new FormData();
@@ -53,7 +54,7 @@ export default function page() {
     try {
         const response = await uploadImage({ data: formData }); // Correct way to call the mutation function
         console.log(response); // Handle the response as needed
-		toast.warn("Upload image successfully")
+		toast.warn("Upload icon successfully")
     } catch (error) {
         console.error(error); // Handle errors
     }

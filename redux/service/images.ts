@@ -32,11 +32,21 @@ export const imageApi = ecommerceApi.injectEndpoints({
 				body: data,
 			}),
 		}),
+
+		//upload icon
+		uploadIcon: builder.mutation<any, { data: object}>({
+			query: ({ data }) => ({
+				url: `api/file/icon/`,
+				method: "POST",
+				body: data,
+			}),
+		}),
 	})
 })
 
 export const {
 	useGetIconsQuery,
 	useGetImagesQuery,
-	useUploadImageMutation
+	useUploadImageMutation,
+	useUploadIconMutation,
 } = imageApi;

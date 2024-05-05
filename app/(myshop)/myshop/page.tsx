@@ -53,6 +53,21 @@ const handleDelete=(id:number)=>{
   setId(id)
 }
 
+const handleFilter = (event: any) => {
+  const search = event.target.value.toLowerCase();
+  const newProduct = products.filter((product: any) => {
+    return product.name.toLowerCase().includes(search);
+  });
+
+  // Check if the search query is empty
+  if (search === '') {
+
+    setProducts(data);
+  } else {
+   
+    setProducts(newProduct);
+  }
+}
 
   const columns:TableColumn<ProductType>[] = [
     {
@@ -111,7 +126,7 @@ const handleDelete=(id:number)=>{
   ];
   return (
     <main>
-        <SearchComponent/>
+        <SearchComponent onChange={handleFilter} />
        <section className='mt-[20px]'>
       </section>
        <Modal show={openModal} onClose={() => setOpenModal(false)}>

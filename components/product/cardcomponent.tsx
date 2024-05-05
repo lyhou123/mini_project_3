@@ -3,6 +3,7 @@ import { ProductRespone, ProductType } from "@/lib/constans";
 import { Card } from "flowbite-react";
 import { useAppDispatch } from "@/redux/hooks";
 import {increment,decrement, incrementByAmount} from "@/redux/feature/counter/couterSlice";
+import { addToCart } from "@/redux/feature/addToCart/cartSlice";
 export default function CardComponent(props:ProductRespone) {
  const disPatch = useAppDispatch();
  const placeHolderImage="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
@@ -25,7 +26,9 @@ export default function CardComponent(props:ProductRespone) {
         <button
         
           className="rounded-lg bg-yellow-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-          onClick={()=>disPatch(increment())}
+          onClick={()=>{
+          disPatch(addToCart(props as ProductType));
+          disPatch(increment())}}
         >
           Add to cart 
         </button>

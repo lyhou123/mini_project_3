@@ -22,10 +22,21 @@ export const imageApi = ecommerceApi.injectEndpoints({
 				method: "GET",
 			}),
 		}),
+
+
+		//upload image
+		uploadImage: builder.mutation<any, { data: any ,name:string}>({
+			query: ({ data,name }) => ({
+				url: `api/file/${name}`,
+				method: "POST",
+				body: data,
+			}),
+		}),
 	})
 })
 
 export const {
 	useGetIconsQuery,
-	useGetImagesQuery
+	useGetImagesQuery,
+	useUploadImageMutation
 } = imageApi;

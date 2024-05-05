@@ -3,6 +3,7 @@ import couterSlice from './feature/counter/couterSlice'
 import tokenSlice from './feature/auth/authSlice'
 import { productApi } from './service/product'
 import cartSlice from './feature/addToCart/cartSlice'
+import userSlice from './feature/userProfile/userSlice'
 
 
 // create store
@@ -12,7 +13,8 @@ export const makeStore = () => {
         [productApi.reducerPath]: productApi.reducer,
         counter: couterSlice,
         auth:tokenSlice,
-        cart:cartSlice
+        cart:cartSlice,
+        userProfile:userSlice
        
         
     },

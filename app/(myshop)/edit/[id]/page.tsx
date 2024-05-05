@@ -2,16 +2,18 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import style from "./style.module.css";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ImageType, ProductPostType ,initialValues } from "@/lib/constans";
+import { useGetIconsQuery, useGetImagesQuery, useUploadImageMutation } from "@/redux/service/images";
+import { useCreateProductMutation, useGetProductByIdQuery, useUpdateProductMutation } from "@/redux/service/product";
 
-import { useGetIconsQuery, useGetImagesQuery } from "@/redux/service/images";
-import { useCreateProductMutation } from "@/redux/service/product";
-
-
-const FILE_SIZE = 1024 * 1024 * 2; // 2MB
-const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
+type ProductDetailType={
+    params:{
+        id:number
+    },
+    searchParams: { [key: string]: string | string[] | undefined }
+}
 
 const validationSchema = Yup.object().shape({
 	categoryName: Yup.string().required("Required"),
@@ -21,17 +23,42 @@ const validationSchema = Yup.object().shape({
 	quantity: Yup.number().required("Required"),
 });
 
-export default function Product() {
+
+
+export default function Product(prop:ProductDetailType) {
 	const router=useRouter()
+    const id = prop.params.id
+    console.log(id)
+
    
 	//fetch data from RTK query
+	const[selectedPhoto, setSelectedPhoto] = useState(null);
+    const[selectedIcon, setSelectedIcon] = useState(null);
+    const[props,setProps] = useState([])
+    const[icons,setIcons] = useState([])
+    const[page, setPage] = useState(1);
+    const[pageSize, setPageSize] = useState(5);
+    
+    const { data: productData, isLoading: isProductLoading } = useGetProductByIdQuery(id);
+    useEffect(()=>{
+        if(!isProductLoading && productData){
+            console.log(productData)
+        }
+    
+    },[productData,isProductLoading])
+      
+    const initialValues ={
+        categoryName:productData?.category||'',
+        name:productData?.name||'',
+        desc:productData?.desc||'',
+        image:productData?.image||'',
+        price:productData?.price||0,
+        quantity:productData?.quantity||0,
+    }
+    
+    
+    //fetch images
 
-	const [selectedPhoto, setSelectedPhoto] = useState(null);
-    const [selectedIcon, setSelectedIcon] = useState(null);
-    const[props,setProps]=useState([])
-    const[icons,setIcons]=useState([])
-    const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(5);
 
     const{data:data,isLoading:isLoading,isFetching:isFethching}=useGetImagesQuery({page:page,pageSize:pageSize}) 
 
@@ -39,31 +66,40 @@ export default function Product() {
      
     const{data:data1,isLoading:isLoading1,isFetching:isFetching1}=useGetIconsQuery({page:page,pageSize:pageSize})
 
-    const[createProduct,{data:productData,isLoading:productLoading}]=useCreateProductMutation()
+    //fetch update product
 
-	const[deleteProduct,{data:deleteData,isLoading:deleteLoading}]=useCreateProductMutation()
-    
-    //create product 
-	const createProduct1 = async (values:ProductPostType) =>({
-		createProduct:({
-			createProduct:values
-		})
-	})
-
-	//delete product
-	const handleDeleteProduct = async (id: Number) => {(id)}
-
-    useEffect(()=>{
-        if(!isLoading1 && data1){
-            setIcons(data1.results)
-        }
-    },[data1,isLoading1])   
+    const[updateProduct,{isLoading:isUpdating}]=useUpdateProductMutation();
      
 
+    //update product 
+    const handleUpdateProduct = async (product: ProductPostType,id:number) => {
+        updateProduct:({
+            updateProduct:{
+                id:id,
+                updatedProduct:{
+                    product:product
+                }
+            }
+        })
+    }
+    
+    
+
+	//delete product
+	const handleDeleteProduct = async (id: Number) => {(id)}   //note zl
 
     const totalPages = Math.ceil(data?.total/ pageSize) || 4;
    
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+    //icon
+    
+    useEffect(()=>{
+        if(!isLoading1 && data1){
+            setIcons(data1.results)
+        }
+    },[data1,isLoading1])  
+
+    //image
     useEffect(()=>{
         if(!isLoading && data){
             setProps(data.results)
@@ -123,8 +159,9 @@ const renderPageNumbers = (data:any) => {
 
 	return (
 		<main className={`${style.container}`}>
+          
 			<Formik
-				initialValues={initialValues}
+			  	initialValues={initialValues}
 				validationSchema={validationSchema}
 				onSubmit={async (values:any) => {
 					console.log(values);
@@ -140,7 +177,7 @@ const renderPageNumbers = (data:any) => {
                         quantity: values.quantity,
                     }
 
-					createProduct(productPost)
+					updateProduct({id:id,updatedProduct:productPost})
 				}}
 			>
 				{({ setFieldValue }:any) => (
@@ -153,7 +190,7 @@ const renderPageNumbers = (data:any) => {
                         <div className={`${style.title}`}>
                             <div>
                         <button onClick={()=>router.push(`/add`)} className={`${style.title}`}>
-                            Create Product
+                            Update Product
                             </button>
                         </div>
                         <div>
@@ -277,7 +314,7 @@ const renderPageNumbers = (data:any) => {
         
      )}
 
-<div className="flex justify-center p-4">
+     <div className="flex justify-center p-4">
                     <button onClick={prevPage} disabled={page === 1} className="px-4 py-2 mx-1 rounded-lg">Previous</button>
                     {renderPageNumbers(data)}
                     <button onClick={nextPage} disabled={isLoading || isFethching} className="px-4 py-2 mx-1 rounded-lg">Next</button>
@@ -300,8 +337,8 @@ const renderPageNumbers = (data:any) => {
       >
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
       </svg>
-    </summary>
-    {icons.map((image:ImageType,index)=>
+      </summary>
+       {icons.map((image:ImageType,index)=>
                     <div key={index} className="flex items-center justify-between gap-4 p-4 bg-gray-50">
                         <img src={image.image} alt={image.name} className="w-20 h-20 object-cover rounded-lg" onClick={()=>handleSelect(index,props,icons,'data1Icon')}/>
                         <h3 className="text-gray-900">{image.name}</h3>
@@ -313,8 +350,8 @@ const renderPageNumbers = (data:any) => {
                     {renderPageNumbers(data1)}
                     <button onClick={nextPage} disabled={isLoading1 || isFetching1} className="px-4 py-2 mx-1 rounded-lg">Next</button>
                 </div>
-        </details>
-        {selectedIcon && <img src={selectedIcon} alt="" />}
+            </details>
+             {selectedIcon && <img src={selectedIcon} alt="" />}
 
 
                         <div className="mt-4">
@@ -329,7 +366,6 @@ const renderPageNumbers = (data:any) => {
 					</Form>
 				)}
 			</Formik>
-        
 		</main>
 	);
 }

@@ -21,7 +21,7 @@ const cartSlice = createSlice({
 
             state.totalPrice -= product?.price || 0;
 
-      state.products = state.products.filter(
+          state.products = state.products.filter(
         (product) => product.id !== action.payload
       );
     },

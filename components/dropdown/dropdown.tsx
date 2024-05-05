@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { ImageType } from '@/lib/constans'
 import { useGetImagesQuery , useGetIconsQuery } from '@/redux/service/images'
-import Product from '@/app/(user)/add/page';
+import Product from '@/app/(myshop)/add/page';
 import { useAppDispatch } from '@/redux/hooks';
 export default function Dropdown() {
    

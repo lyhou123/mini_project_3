@@ -3,7 +3,7 @@
 import { Button, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
 import {MenuList} from "@/components/navbar/menu";
 import {useState} from "react";
-import {usePathname} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import Link from "next/link";
 import '@/app/globals.css'
 import { IoCart } from "react-icons/io5";
@@ -16,10 +16,11 @@ type MenuItems = {
 export default function NavbarComponent() {
     const[menu,setMenu] = useState<MenuItems[]>(MenuList)
     const count = useAppSelector((state)=> state.counter.value);
+    const router = useRouter();
     const pathName = usePathname();
     return (
         <Navbar >
-            <NavbarBrand href="https://flowbite-react.com">
+            <NavbarBrand href="/">
                 <img src="https://istad.co/resources/img/CSTAD_120.png" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Cambo Product</span>
             </NavbarBrand>
@@ -28,7 +29,7 @@ export default function NavbarComponent() {
                     <span className="text-xl text-yellow-500 relative top-[-10px] left-8">{count}</span>
                 </div>
                 <div>   
-                    <IoCart className="text-5xl mr-2 text-yellow-500" />
+                    <IoCart onClick={()=>router.push(`/cart`)} className="text-5xl mr-2 text-yellow-500" />
                     </div>
                 <div>
                 <Button className="bg-red-500">Login</Button>

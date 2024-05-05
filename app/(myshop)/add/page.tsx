@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { ImageType, ProductPostType ,initialValues } from "@/lib/constans";
 import { useGetIconsQuery, useGetImagesQuery, useUploadImageMutation } from "@/redux/service/images";
 import { useCreateProductMutation } from "@/redux/service/product";
+import { ToastContainer, toast } from "react-toastify";
 
 
 
@@ -44,11 +45,20 @@ export default function Product() {
     const[uploadImage,{data:updateData,isLoading:updateLoading}]=useUploadImageMutation()
     
     //create product 
-	const createProduct1 = async (values:ProductPostType) =>({
-		createProduct:({
-			createProduct:values
-		})
-	})
+	const createProduct1 = async (values: ProductPostType) => {
+        try {
+            const result = await createProduct(values);
+            toast.success("Product Created Successfully");
+            return result;
+        } catch (error) {
+    
+            console.error("Product creation failed:", error);
+          
+            toast.error("Failed to create product");
+            throw error; 
+        }
+    };
+    
 
 	//delete product
 	const handleDeleteProduct = async (id: Number) => {(id)}
@@ -347,7 +357,7 @@ const renderPageNumbers = (data:any) => {
 					</Form>
 				)}
 			</Formik>
-        
+      
 		</main>
 	);
 }

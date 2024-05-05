@@ -4,6 +4,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import style from "./style.module.css";
 import { useUploadImageMutation } from '@/redux/service/images';
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const FILE_SIZE = 1024 * 1024 * 2; // 2MB
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
@@ -50,6 +52,7 @@ export default function page() {
     try {
         const response = await uploadImage({ data: formData }); // Correct way to call the mutation function
         console.log(response); // Handle the response as needed
+		toast.warn("Upload image successfully")
     } catch (error) {
         console.error(error); // Handle errors
     }
@@ -131,9 +134,23 @@ const CustomInput = ({ field, form, setFieldValue }: any) => {
 		
 	};
 	return (
-		<div>
+		<main>
 			<input onChange={(e) => handleUploadeFile(e)} type="file" />
-			{imagePreview && <img src={imagePreview} alt="preview" />}
-		</div>
+			{imagePreview && <img src={imagePreview} className='w-[200px]' alt="preview" />}
+			<section>
+			<ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+			</section>
+		</main>
 	);
 };

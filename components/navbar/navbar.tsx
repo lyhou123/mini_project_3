@@ -1,13 +1,14 @@
 'use client'
 
-import { Button, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
+import { Avatar, Button, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
 import {MenuList} from "@/components/navbar/menu";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {usePathname, useRouter} from "next/navigation";
 import Link from "next/link";
 import '@/app/globals.css'
 import { IoCart } from "react-icons/io5";
-import {  useAppSelector } from "@/redux/hooks";
+import {  useAppSelector } from "@/redux/hooks"
+import { useSession } from "next-auth/react";
 type MenuItems = {
     title:string,
     path:string,
@@ -18,6 +19,17 @@ export default function NavbarComponent() {
     const count = useAppSelector((state)=> state.counter.value);
     const router = useRouter();
     const pathName = usePathname();
+    const[loggedIn,setLoggedIn] = useState(false)
+    const{data:session} = useSession();
+
+    useEffect(() => {
+        // Check session and update loggedIn state only once when the component mounts
+        if (session) {
+            setLoggedIn(true);
+        }
+    }, [session]);
+    console.log('this is my sesstion',session)
+    console.log('this is my loggedIn',loggedIn)
     return (
         <Navbar >
             <NavbarBrand href="/">
@@ -31,9 +43,14 @@ export default function NavbarComponent() {
                 <div>   
                     <IoCart onClick={()=>router.push(`/cart`)} className="text-5xl mr-2 text-yellow-500" />
                     </div>
-                <div>
-                <Button className="bg-red-500">Login</Button>
-                </div>
+                    <div>
+             {loggedIn ? (
+              <Avatar img={session?.user?.image as string} alt="avatar of Jese" rounded />
+                ) : (
+               <Button className="bg-red-500">Login</Button>
+                  )}
+</div>
+
                 <NavbarToggle />
             </div>
             <NavbarCollapse>

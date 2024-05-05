@@ -46,7 +46,16 @@ export const productApi = ecommerceApi.injectEndpoints({
 				body: newProduct,
 			}),
 		}),
-
+         
+		//get All product 
+		getAllProducts: builder.query<any, { page: number; pageSize: number }>({
+			query: ({ page = 1, pageSize = 10 }) =>({
+				url: `api/products/?page=${page}&page_size=${pageSize}`,
+			    method: "GET",
+				
+			})
+			
+		}),
 	
 
 	
@@ -58,6 +67,7 @@ export const {
 	useGetProductByIdQuery,
 	useUpdateProductMutation,
 	useDeleteProductMutation,
-	useCreateProductMutation
+	useCreateProductMutation,
+	useGetAllProductsQuery
 	
 } = productApi;

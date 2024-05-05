@@ -189,12 +189,10 @@ const renderPageNumbers = (data:any) => {
                         </div>
                         <div className={`${style.title}`}>
                             <div>
-                        <button onClick={()=>router.push(`/add`)} className={`${style.title}`}>
-                            Update Product
-                            </button>
+                       <h1>Update Product</h1>
                         </div>
                         <div>
-                            <button className='bg-yellow-500 hover:bg-transparent hover:text-red-500 text-white text-base rounded-lg py-2 px-3'>Upload Image</button>
+                            <button onClick={()=>router.push(`/uploadimage`)} className='bg-yellow-500 hover:bg-transparent hover:text-red-500 text-white text-base rounded-lg py-2 px-3'>Upload Image</button>
                         </div>
 
                             </div>

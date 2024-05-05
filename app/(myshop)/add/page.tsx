@@ -9,8 +9,7 @@ import { useGetIconsQuery, useGetImagesQuery, useUploadImageMutation } from "@/r
 import { useCreateProductMutation } from "@/redux/service/product";
 
 
-const FILE_SIZE = 1024 * 1024 * 2; // 2MB
-const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
+
 
 const validationSchema = Yup.object().shape({
 	categoryName: Yup.string().required("Required"),
@@ -31,7 +30,6 @@ export default function Product() {
     const[icons,setIcons] = useState([])
     const[page, setPage] = useState(1);
     const[pageSize, setPageSize] = useState(5);
-    const[fileValue ,setFileValue] = useState(null)
 
     const{data:data,isLoading:isLoading,isFetching:isFethching}=useGetImagesQuery({page:page,pageSize:pageSize}) 
 
@@ -139,9 +137,7 @@ const renderPageNumbers = (data:any) => {
 
     return pagesToShow;
 };
-	
-	
-	
+
 
 	return (
 		<main className={`${style.container}`}>
@@ -179,7 +175,7 @@ const renderPageNumbers = (data:any) => {
                             </button>
                         </div>
                         <div>
-                            <button className='bg-yellow-500 hover:bg-transparent hover:text-red-500 text-white text-base rounded-lg py-2 px-3'>Upload Image</button>
+                            <button onClick={()=>router.push(`/uploadimage`)} className='bg-yellow-500 hover:bg-transparent hover:text-red-500 text-white text-base rounded-lg py-2 px-3'>Upload Image</button>
                         </div>
 
                             </div>

@@ -25,9 +25,9 @@ export const imageApi = ecommerceApi.injectEndpoints({
 
 
 		//upload image
-		uploadImage: builder.mutation<any, { data: any ,name:string}>({
-			query: ({ data,name }) => ({
-				url: `api/file/${name}`,
+		uploadImage: builder.mutation<any, { data: object}>({
+			query: ({ data }) => ({
+				url: `api/file/product/`,
 				method: "POST",
 				body: data,
 			}),

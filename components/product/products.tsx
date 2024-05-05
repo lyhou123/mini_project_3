@@ -60,6 +60,7 @@ const prevPage = () => {
                 {products.map((pro, key) => (
                     <CardComponent
                         key={key}
+                        id={pro.id}
                         onClick={() => router.push(`/service/${pro.id}`)}
                         name={pro.name}
                         price={pro.price}

@@ -10,6 +10,7 @@ export type ProductType={
 }
 
 export type ProductRespone={
+    id:number,
     name:string,
     image:string,
     desc:string,
@@ -56,4 +57,13 @@ export const initialValues = {
 	quantity: 0,
 	fileIcon: null,
 	fileProduct: null,
+};
+
+export type CartProductType = {
+	name: string;
+	image: string;
+	price: number;
+    desc:string
+	id: number;
+	onClick?: () => void;
 };

@@ -1,37 +1,52 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ProductType } from "@/lib/constans";
+import { CartProductType, ProductRespone, ProductType } from "@/lib/constans";
 import type { RootState } from "@/redux/store";
 
 const initialState = {
-  products: [] as ProductType[],
+  products: [] as CartProductType[],
   totalPrice: 0,
+  totalProductPrice: 0,
 };
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<ProductType>) => {
+    addToCart: (state, action: PayloadAction<CartProductType>) => {
+        const existingProduct = state.products.find((product) => product.id === action.payload.id);
+        if (existingProduct) {
+            state.totalProductPrice += existingProduct.price;
+        } else {
+            state.totalProductPrice = action.payload.price;
+        }
+
+      
       state.products.push(action.payload);
       state.totalPrice += action.payload.price;
     },
+
+    
     removeFromCart: (state, action: PayloadAction<number>) => {
-           
-            const product = state.products.find((product) => product.id === action.payload);
+      const product = state.products.find((product) => product.id === action.payload);
 
-            state.totalPrice -= product?.price || 0;
+      state.totalPrice -= product?.price || 0;
 
-          state.products = state.products.filter(
-        (product) => product.id !== action.payload
-      );
-    },
+      state.products = state.products.filter(
+
+      (product) => product.id !== action.payload
+
+        );
+},
   },
 });
 
 // export actions
 export const { addToCart, removeFromCart } = cartSlice.actions;
+
 export default cartSlice.reducer;
 
 // create selector
 export const selectProducts = (state: RootState) => state.cart.products;
 export const selectTotalPrice = (state: RootState) => state.cart.totalPrice;
+export const selectTotalProductPrice = (state: RootState) => state.cart.totalProductPrice;
+

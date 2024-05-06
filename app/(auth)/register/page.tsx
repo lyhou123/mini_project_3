@@ -9,6 +9,7 @@ import { IoEyeSharp } from "react-icons/io5";
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useRouter } from "next/navigation";
 type ValueTypes = {
 	email: string;
 	password1: string;
@@ -46,11 +47,11 @@ export default function Register() {
 		setShowPassword(!showPassword);
 		// Toggle password visibility
 	};
-
+    const router = useRouter();
 	//  handle submit
 	const handleSubmit = (values: ValueTypes) => {
 		setLoading(true);
-		fetch(`${process.env.NEXT_PUBLIC_DJANGO_API_URL}/api/user/register/`, {
+      	fetch(`${process.env.NEXT_PUBLIC_DJANGO_API_URL}/api/user/register/`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -61,12 +62,16 @@ export default function Register() {
 			.then((data) => {
 				console.log(data);
 				setLoading(false);
+				router.push("/");
+			
 			})
 			.catch((error) => {
 				console.log(error);
 				setLoading(false);
 			});
-	};
+
+	
+		}
 
 	if (loading) {
 		return (
@@ -78,6 +83,7 @@ export default function Register() {
 
 	return (
 		<main className={`${style.container}`}>
+			
 			<Formik
 				initialValues={initialValues}
 				validationSchema={validationSchema}
@@ -85,8 +91,18 @@ export default function Register() {
 					handleSubmit(values);
 				}}
 			>
+		
 				<Form className="bg-gray-100 p-4 rounded-lg w-96">
-					<h1 className={`${style.title}`}>Register</h1>
+				<div className="sm:mx-auto sm:w-full sm:max-w-md">
+            <img
+              className="mx-auto h-10 w-auto"
+              src="https://www.istad.co/resources/img/CSTAD_120.png"
+              alt="Cambo Product Logo"
+            />
+            <h2 className="mt-6 text-center text-2xl font-extrabold leading-9 tracking-tight text-gray-900">
+              Register new account
+            </h2>
+          </div>
 					{/* Email */}
 					<div className="mb-5">
 						<label className={`${style.label}`} htmlFor="email">

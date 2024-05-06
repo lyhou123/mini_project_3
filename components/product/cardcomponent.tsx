@@ -32,7 +32,8 @@ export default function CardComponent(props:CartProductType) {
             name: props.name,
             image: props.image,
             price: props.price,
-            desc: props.desc
+            desc: props.desc,
+            quantity: props.quantity,
           }));
           disPatch(increment())}}
         >

@@ -8,7 +8,7 @@ import Link from "next/link";
 import '@/app/globals.css'
 import { IoCart } from "react-icons/io5";
 import {  useAppSelector } from "@/redux/hooks"
-import { useSession } from "next-auth/react";
+import { useSession ,  signOut } from "next-auth/react";
 type MenuItems = {
     title:string,
     path:string,
@@ -44,13 +44,17 @@ export default function NavbarComponent() {
                     <IoCart onClick={()=>router.push(`/cart`)} className="text-5xl mr-2 text-yellow-500" />
                     </div>
                     <div>
-             {loggedIn ? (
+             {loggedIn ? 
               <Avatar img={session?.user?.image as string} alt="avatar of Jese" rounded />
-                ) : (
-               <Button className="bg-red-500">Login</Button>
+                 : (
+               <Button onClick={()=>router.push(`/login`)} className="bg-red-500">Login</Button>
                   )}
 </div>
-
+                 <div className="ml-[10px]">
+                 {loggedIn && (
+              <Button onClick={()=>signOut()}  className="bg-red-500">Logout</Button>
+      )}
+                 </div>
                 <NavbarToggle />
             </div>
             <NavbarCollapse>

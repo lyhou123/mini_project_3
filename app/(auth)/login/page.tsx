@@ -8,6 +8,7 @@ import { setAssessToken } from '@/redux/feature/auth/authSlice';
 import { IoEyeOffSharp } from "react-icons/io5";
 import { IoEyeSharp } from "react-icons/io5";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useRouter } from 'next/navigation';
 type ValueTypes = {
 	email: string;
 	password: string;
@@ -24,6 +25,8 @@ const validationSchema = Yup.object().shape({
 	password: Yup.string().required("Required"),
 });
 export default function Example() {
+
+  const router = useRouter()
 
     const [showPassword, setShowPassword] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -52,6 +55,7 @@ export default function Example() {
 				dispatch(setAssessToken(data.accessToken));
 				setUser(data.user);
 				console.log(data.accessToken);
+        router.push('/')
 			})
 			.catch((error) => {
 				console.error("Error:", error);
@@ -65,25 +69,6 @@ export default function Example() {
 			<div className={`${style.container}`}>
 				<h1 className="text-6xl text-center">Loading...</h1>
 			</div>
-		);
-	}
-  if (!session) {
-		return (
-			<main className="w-full h-screen flex flex-col justify-center items-center">
-				<p className="text-2xl mb-2">Not Signed In</p>
-				<button
-					className="bg-blue-600 py-2 px-6 rounded-md text-white mb-2"
-					onClick={() => signIn("google")}
-				>
-					Sign in with google
-				</button>
-				<button
-					className="bg-none border-gray-300 border py-2 px-6 rounded-md mb-2"
-					onClick={() => signIn("github")}
-				>
-					Sign in with github
-				</button>
-			</main>
 		);
 	}
     return (
@@ -166,8 +151,8 @@ export default function Example() {
                   </div>
               
                   <div className="text-sm leading-6">
-                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                      Forgot password?
+                    <a href="/register" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                      Register Account
                     </a>
                   </div>
                 </div>
@@ -232,26 +217,6 @@ export default function Example() {
             </div>
           </Form>
         </Formik>
-      
-			<div className="w-44 h-44 relative mb-4">
-				<img
-					src={session.user?.image as string}
-
-					alt=""
-					className="object-cover rounded-full"
-				/>
-			</div>
-			<p className="text-2xl mb-2">
-				Welcome <span className="font-bold">{session.user?.name}</span>. Signed
-				In As
-			</p>
-			<p className="font-bold mb-4">{session.user?.email}</p>
-			<button
-				className="bg-red-600 py-2 px-6 rounded-md"
-				onClick={() => signOut()}
-			>
-				Sign out
-			</button>
 
       </main>
     )

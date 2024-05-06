@@ -65,5 +65,6 @@ export type CartProductType = {
 	price: number;
     desc:string
 	id: number;
+    quantity: number;
 	onClick?: () => void;
 };

@@ -5,26 +5,15 @@ import { FaCheck } from "react-icons/fa";
 import { FaClock } from "react-icons/fa";
 import { FaQuestion } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
-import { removeFromCart, selectProducts, selectTotalPrice } from '@/redux/feature/addToCart/cartSlice';
-import { CartProductType, ProductType } from '@/lib/constans';
+import { removeFromCart, selectProducts, selectTotalPrice,incrementQuantity,decrementQuantity } from '@/redux/feature/addToCart/cartSlice';
+import { CartProductType} from '@/lib/constans';
 import { decrement, incrementByAmount } from '@/redux/feature/counter/couterSlice';
+
 export default function ProductView() {
   const products = useAppSelector(selectProducts);
   const totalPrice = useAppSelector(selectTotalPrice);
   const dispatch = useAppDispatch();
-  const totalProductPrice = useAppSelector(selectTotalPrice);
-  const couter = useAppSelector((state) => state.counter.value);
-
-  console.log('this is total price from store ',totalPrice);
- 
-  const [selectedValue, setSelectedValue] = useState(1);
   
-  const handleChange = (e:any) => {
-    const value = parseInt(e.target.value);
-    setSelectedValue(value);
-    dispatch(incrementByAmount(value));
-  };
-
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -63,34 +52,33 @@ export default function ProductView() {
                           <p className="text-gray-500">Black</p>
                             <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">Black</p>
                         </div>
-                        <p className="mt-1 text-sm font-medium text-gray-900">{product.price}</p>
+                        <p className="mt-1 text-sm font-medium text-gray-900"></p>
+                        <p className='mt-1 text-sm font-medium text-gray-900'>Qty {product.quantity}</p>
                       </div>
 
                       <div className="mt-4 sm:mt-0 sm:pr-7">
-                        <label htmlFor={`quantity-${key}`} className="sr-only">
-                          Quantity, {product.name}
-                        </label>
-                        <select
-                          value={selectedValue}
-                          onChange={handleChange}
-                          id={`quantity-${key}`}
-                          name={`quantity-${key}`}
-                          key={key}
             
-                          className="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-                        >
-                          <option    value={1}>1</option>
-                          <option  value={2}>2</option>
-                          <option  value={3}>3</option>
-                          <option value={4}>4</option>
-                          <option  value={5}>5</option>
-                          <option  value={6}>6</option>
-                          <option  value={7}>7</option>
-                          <option  value={8}>8</option>
-                        </select>
+        <div className="relative flex items-center max-w-[8rem]">
+        <button type="button" onClick={()=>{
+        
+          dispatch(decrementQuantity(product.id))
+          
+
+          }} className=" dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border  rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+            <svg className="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+            </svg>
+        </button>
+        <input type="text" className=" border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="999" value="1" required />
+        <button type="button" onClick={()=>dispatch(incrementQuantity(product.id))} id="increment-button" data-input-counter-increment="quantity-input" className=" dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+            <svg className="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+            </svg>
+        </button>
+    </div>
 
                         <div className="absolute right-10 top-0">
-                           <span>${totalProductPrice}</span>
+                           <span>${product.quantity*product.price}</span>
                         </div>
 
                         <div className="absolute right-0 top-0">
@@ -98,7 +86,7 @@ export default function ProductView() {
                             <span className="sr-only">Remove</span>
                             <MdDelete onClick={()=>{
                               console.log(product.id);
-                              dispatch(removeFromCart(product.id))
+                              dispatch(removeFromCart({ id: product.id, quantity: product.quantity }))
                               dispatch(decrement())
 
                               }}  className="h-5 w-5 text-red-500" aria-hidden="true" />
@@ -163,6 +151,7 @@ export default function ProductView() {
                 <span className="text-base font-medium text-gray-900">${totalPrice}</span>
                 )}
               </div>
+            
             </dl>
 
             <div className="mt-6">

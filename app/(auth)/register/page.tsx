@@ -76,7 +76,7 @@ export default function Register() {
 	if (loading) {
 		return (
 			<div className={`${style.container}`}>
-				<h1 className="text-6xl text-center">Loading...</h1>
+				<h1 className="text-6xl text-center">Your confirm email is sending...</h1>
 			</div>
 		);
 	}

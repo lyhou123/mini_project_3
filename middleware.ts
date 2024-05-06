@@ -19,5 +19,5 @@ export function middleware(request: NextRequest) {
 
 // multiple middleware
 export const config = {
-	matcher: ["/myshop"],
+	matcher: ["/myshop",'/add',"/edit",'/delete','/logout'],
 };

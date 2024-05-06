@@ -10,9 +10,15 @@ type Props = {
 import style from "./style.module.css";
 import Button from "./components/button"
 import { useRouter } from "next/navigation";
+import { useVerifyEmailMutation } from "@/redux/service/user";
 
 export default function ConfirmEmail(props: Props) {
     const router = useRouter();
+	const key = props.params.key;
+	
+    //get user key form rtk 
+	 const [verifyEmmail,{data,isLoading,isError}] = useVerifyEmailMutation()
+
 	return (
 		<main className={style.container}>
 			{/* Confirm Email Card */}

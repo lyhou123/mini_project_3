@@ -9,6 +9,7 @@ import { IoEyeOffSharp } from "react-icons/io5";
 import { IoEyeSharp } from "react-icons/io5";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from 'next/navigation';
+import { useLoginMutation } from '@/redux/service/user';
 type ValueTypes = {
 	email: string;
 	password: string;
@@ -44,31 +45,16 @@ export default function Example() {
       router.push('/')
     
     }
-	//  handle submit
-	const handleSubmit = (values: ValueTypes) => {
-		setLoading(true);
-		fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(values),
-		})
-			.then(res=>res.json())
-			.then((data) => {
-				console.log(data);
-				setLoading(false);
-				dispatch(setAssessToken(data.accessToken));
-				setUser(data.user);
-				console.log(data.accessToken);
-        router.push('/')
-			})
-			.catch((error) => {
-				console.error("Error:", error);
-				setLoading(false);
-			});	
-			
-	};
+
+   const[login,{data,error,isLoading}] = useLoginMutation()
+   const handleSubmit = async (values: ValueTypes) => {
+        try {
+            await login({data:values})
+            router.push('/')
+        } catch (error) {
+            console.log(error)
+        }
+   }
     
 	if (loading) {
 		return (
@@ -211,7 +197,7 @@ export default function Example() {
                     href="#"
                     className="flex w-full items-center justify-center gap-3 rounded-md bg-[#f8f8f8be] px-3 py-1.5 text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
                     onClick={async() =>{
-                       await signIn("github")
+                        signIn("github")
                        router.push('/')
                     }}
                   >

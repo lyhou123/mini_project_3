@@ -52,8 +52,9 @@ export default async function CardDetail(pros:CartProductType) {
       </div>
       <p className="mt-4 text-[24px] text-black font-semibold ">Suggestion Products</p>
       <div className="mt-[30px] grid sm:grid-cols-1  md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 gap-[24px]">
-        {items.map((item:ProductType)=>(
+        {items.map((item:ProductType,key:any)=>(
            <Card
+           key={key}
            className="container mx-auto h-[400px] w-[300px] cursor-pointer"
            renderImage={()=>(<img className='w-[310px] h-[400px] overflow-hidden object-fit' src={item?.image||placeHolderImage} alt={item.name} onClick={()=>router.push(`/service/${item.id}`)} />
            )}  

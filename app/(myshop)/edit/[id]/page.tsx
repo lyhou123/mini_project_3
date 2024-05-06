@@ -39,7 +39,7 @@ export default function Product(prop:ProductDetailType) {
     const[page, setPage] = useState(1);
     const[pageSize, setPageSize] = useState(5);
     
-    const { data: productData, isLoading: isProductLoading } = useGetProductByIdQuery(id);
+    const { data: productData, isLoading: isProductLoading } = useGetProductByIdQuery({ id: id });
     useEffect(()=>{
         if(!isProductLoading && productData){
             console.log(productData)

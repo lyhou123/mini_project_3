@@ -38,6 +38,12 @@ export default function Example() {
 	};
 
   const { data: session } = useSession();
+
+  if(session)
+    {
+      router.push('/')
+    
+    }
 	//  handle submit
 	const handleSubmit = (values: ValueTypes) => {
 		setLoading(true);
@@ -180,7 +186,11 @@ export default function Example() {
                   <a
                     href="#"
                     className="flex w-full items-center justify-center gap-3 rounded-md bg-[#f8f8f8be] px-3 py-1.5 text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1D9BF0]"
-                    onClick={() => signIn("google")}
+                    onClick={() =>
+                      { 
+                       signIn("google")
+                       
+                      }}
                   >
                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                              viewBox="0 0 256 262">
@@ -200,7 +210,10 @@ export default function Example() {
                   <a
                     href="#"
                     className="flex w-full items-center justify-center gap-3 rounded-md bg-[#f8f8f8be] px-3 py-1.5 text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
-                    onClick={() => signIn("github")}
+                    onClick={async() =>{
+                       await signIn("github")
+                       router.push('/')
+                    }}
                   >
                     <svg className="h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                       <path

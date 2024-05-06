@@ -59,6 +59,7 @@ const prevPage = () => {
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-flow-row gap-[24px] container mx-auto'>
                 {products.map((pro, key) => (
                     <CardComponent
+                        quantity={pro.quantity}
                         key={key}
                         id={pro.id}
                         onClick={() => router.push(`/service/${pro.id}`)}
@@ -69,7 +70,7 @@ const prevPage = () => {
                     />
                 ))}
             </div>
-            <div className="flex justify-center p-4 my-[20px]">
+            <div className="flex justify-center p-4 mt-[50px]">
                     <button onClick={prevPage} disabled={page === 1} className="px-4 py-2 mx-1 rounded-lg">Previous</button>
                     {renderPageNumbers(data)}
                     <button onClick={nextPage} disabled={isLoading } className="px-4 py-2 mx-1 rounded-lg">Next</button>

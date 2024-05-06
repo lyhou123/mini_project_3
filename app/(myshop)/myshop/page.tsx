@@ -59,7 +59,6 @@ const handleFilter = (event: any) => {
     return product.name.toLowerCase().includes(search);
   });
 
-  // Check if the search query is empty
   if (search === '') {
 
     setProducts(data);

@@ -16,18 +16,18 @@ type MenuItems = {
 }
 export default function NavbarComponent() {
     const[menu,setMenu] = useState<MenuItems[]>(MenuList)
-    const count = useAppSelector((state)=> state.counter.value);
     const router = useRouter();
     const pathName = usePathname();
     const[loggedIn,setLoggedIn] = useState(false)
     const{data:session} = useSession();
+    const count = useAppSelector(state=>state.cart.products)
 
     useEffect(() => {
-        // Check session and update loggedIn state only once when the component mounts
         if (session) {
             setLoggedIn(true);
         }
     }, [session]);
+
     console.log('this is my sesstion',session)
     console.log('this is my loggedIn',loggedIn)
     return (
@@ -38,7 +38,7 @@ export default function NavbarComponent() {
             </NavbarBrand>
              <div className="flex md:order-2">
                 <div>
-                    <span className="text-xl text-yellow-500 relative top-[-10px] left-8">{count}</span>
+                    <span className="text-xl text-yellow-500 relative top-[-10px] left-8">{count.length}</span>
                 </div>
                 <div>   
                     <IoCart onClick={()=>router.push(`/cart`)} className="text-5xl mr-2 text-yellow-500" />
@@ -52,7 +52,7 @@ export default function NavbarComponent() {
 </div>
                  <div className="ml-[10px]">
                  {loggedIn && (
-              <Button onClick={()=>signOut()}  className="bg-red-500">Logout</Button>
+              <Button onClick={()=>signOut()}  className="bg-red-500">Log out</Button>
       )}
                  </div>
                 <NavbarToggle />

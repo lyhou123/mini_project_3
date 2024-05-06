@@ -6,8 +6,8 @@ import style from "./style.module.css";
 import { useUploadIconMutation, useUploadImageMutation } from '@/redux/service/images';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { Dropdown } from "flowbite-react";
-import { CiCamera } from "react-icons/ci";
+import { useRouter } from 'next/navigation';
+
 
 const FILE_SIZE = 1024 * 1024 * 2; // 2MB
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
@@ -45,6 +45,8 @@ export default function page() {
   
  const[uploadImage,{data,error}]=useUploadIconMutation();
 
+ const router = useRouter()
+
  const handleUploadImage = async (file:any, name:any) => {
     const formData = new FormData();
     formData.append("name", name);
@@ -54,7 +56,8 @@ export default function page() {
     try {
         const response = await uploadImage({ data: formData }); // Correct way to call the mutation function
         console.log(response); // Handle the response as needed
-		toast.warn("Upload icon successfully")
+		toast.success("Upload icon successfully")
+		router.push('/myshop')
     } catch (error) {
         console.error(error); // Handle errors
     }

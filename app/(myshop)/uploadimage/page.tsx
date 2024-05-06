@@ -7,6 +7,7 @@ import { useUploadImageMutation } from '@/redux/service/images';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { Dropdown } from "flowbite-react";
+import { useRouter } from 'next/navigation';
 
 const FILE_SIZE = 1024 * 1024 * 2; // 2MB
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
@@ -43,6 +44,8 @@ const validationSchema = Yup.object().shape({
 export default function page() {
   
  const[uploadImage,{data,error}]=useUploadImageMutation();
+ 
+ const router = useRouter()
 
  const handleUploadImage = async (file:any, name:any) => {
     const formData = new FormData();
@@ -53,10 +56,13 @@ export default function page() {
     try {
         const response = await uploadImage({ data: formData }); // Correct way to call the mutation function
         console.log(response); // Handle the response as needed
-		toast.warn("Upload image successfully")
+		toast.success("Upload image successfully")
+		router.push('/myshop')
+
     } catch (error) {
         console.error(error); // Handle errors
     }
+	
 };
 
 

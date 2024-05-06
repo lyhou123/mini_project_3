@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
+    "aos": "^2.3.4",
     "flowbite-react": "^0.9.0",
     "formik": "^2.4.6",
     "next": "14.2.3",
@@ -24,6 +25,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/aos": "^3.0.7",
     "@types/cookie": "^0.6.0",
     "@types/node": "^20",
     "@types/react": "^18",

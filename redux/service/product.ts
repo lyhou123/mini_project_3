@@ -14,8 +14,12 @@ export const productApi = ecommerceApi.injectEndpoints({
 			
 		}),
 		// get single product
-		getProductById: builder.query<any, number>({
-			query: (id) => `api/products/${id}/`,
+		getProductById: builder.query<any,{id:number}>({
+			query: ({id}) => 
+				({
+			    url:`api/products/${id}/`,
+			 	method:'GET'
+		})
 		}),
 		
         // update product

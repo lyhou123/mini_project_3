@@ -56,9 +56,11 @@ const prevPage = () => {
 
   return (
     <main>
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-flow-row gap-[24px] container mx-auto'>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-flow-row gap-[24px] container mx-auto' data-aos="fade-up"
+                   data-aos-duration="1000">
                 {products.map((pro, key) => (
                     <CardComponent
+                    
                         quantity={pro.quantity}
                         key={key}
                         id={pro.id}

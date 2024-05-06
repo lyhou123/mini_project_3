@@ -46,15 +46,30 @@ export default function Example() {
     
     }
 
-   const[login,{data,error,isLoading}] = useLoginMutation()
-   const handleSubmit = async (values: ValueTypes) => {
-        try {
-            await login({data:values})
-            router.push('/')
-        } catch (error) {
-            console.log(error)
-        }
-   }
+    const handleSubmit = (values: ValueTypes) => {
+      setLoading(true);
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      })
+        .then(res=>res.json())
+        .then((data) => {
+          console.log(data);
+          setLoading(false);
+          dispatch(setAssessToken(data.accessToken));
+          setUser(data.user);
+          console.log(data.accessToken);
+          router.push('/')
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          setLoading(false);
+        });  
+        
+    };
     
 	if (loading) {
 		return (
@@ -69,7 +84,8 @@ export default function Example() {
 				initialValues={initialValues}
 				validationSchema={validationSchema}
 				onSubmit={(values, actions) => {
-					handleSubmit(values);
+          handleSubmit(values)
+				  
 				}}
 			>
           <Form className="space-y-6" action="#" method="POST">
@@ -196,10 +212,7 @@ export default function Example() {
                   <a
                     href="#"
                     className="flex w-full items-center justify-center gap-3 rounded-md bg-[#f8f8f8be] px-3 py-1.5 text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
-                    onClick={async() =>{
-                        signIn("github")
-                       router.push('/')
-                    }}
+                    onClick={()=>signIn("github")}
                   >
                     <svg className="h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                       <path

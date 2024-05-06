@@ -1,5 +1,5 @@
 'use client'
-import { ProductDetailType, ProductRespone, ProductType, placeHolderImage } from "@/lib/constans";
+import { CartProductType, ProductDetailType, ProductRespone, ProductType, placeHolderImage } from "@/lib/constans";
 import { Card } from "flowbite-react";
 import { useRouter } from "next/navigation";
 const getData=async()=>{	
@@ -7,7 +7,7 @@ const getData=async()=>{
   const respone=await data.json();
   return respone.results;
 }
-export default async function CardDetail(pros:ProductRespone) {
+export default async function CardDetail(pros:CartProductType) {
   const router=useRouter();
   const items=await getData();
   return (

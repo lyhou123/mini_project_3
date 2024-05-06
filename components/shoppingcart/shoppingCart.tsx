@@ -26,7 +26,7 @@ export default function ProductView() {
             </h2>
 
             <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
-            {products.length === 0 && <h2>Product is empty</h2>}
+            {products.length === 0 && <h2 className='h-screen text-2xl flex justify-center align-items-center '>Product is empty</h2>}
             {products.length !== 0 &&
               products.map((product:CartProductType,key) => (
                 <li key={key} className="flex py-6 sm:py-10">

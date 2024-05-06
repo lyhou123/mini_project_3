@@ -35,7 +35,7 @@ export default function CardComponent(props:CartProductType) {
             desc: props.desc,
             quantity: props.quantity,
           }));
-          disPatch(increment())}}
+          }}
         >
           Add to cart 
         </button>

@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function HeroSectionComponent() {
     return (
-        <main className=' container mx-auto'>
+        <main className=' container mx-auto' data-aos="fade-up">
         <div className="relative isolate">
           <svg
             className="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-gray-200 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"

@@ -2,10 +2,10 @@ import React from 'react'
 
 export default function FeatureProduct() {
   return (
-    <section className="mt-[-50px]">
+    <section className="mt-[-50px]" >
     <div className="mx-auto max-w-2xl px-4 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:px-8">
       {/* Details section */}
-      <section aria-labelledby="details-heading">
+      <section aria-labelledby="details-heading" >
         <div className="flex flex-col items-center text-center">
           <h2 id="details-heading" className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             The Fine Details
@@ -18,7 +18,8 @@ export default function FeatureProduct() {
 
         <div className="mt-16 grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:gap-x-8">
           <div>
-            <div className="aspect-h-2 aspect-w-3 w-full overflow-hidden rounded-lg">
+            <div className="aspect-h-2 aspect-w-3 w-full overflow-hidden rounded-lg" data-aos="fade-right"
+                                 data-aos-duration="2000">
               <img
                 src="https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg"
                 alt="Drawstring top with elastic loop closure and textured interior padding."
@@ -31,7 +32,8 @@ export default function FeatureProduct() {
             </p>
           </div>
           <div>
-            <div className="aspect-h-2 aspect-w-3 w-full overflow-hidden rounded-lg">
+            <div className="aspect-h-2 aspect-w-3 w-full overflow-hidden rounded-lg" data-aos="fade-left"
+                                data-aos-duration="2000">
               <img
                 src="https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-02.jpg"
                 alt="Front zipper pouch with included key ring."

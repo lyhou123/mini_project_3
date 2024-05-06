@@ -32,6 +32,8 @@ export default async function ProductDetail(props:ProductDetailType) {
   return (
     <div>
       <CardDetail
+        id={data.id}
+        quantity={data.quantity}
         name={data.name}
         desc={data.desc}
         image={data.image}

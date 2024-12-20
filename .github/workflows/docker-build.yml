@@ -1,0 +1,15 @@
+name: CI/CD Pipeline for Next.js
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  build:
+    run-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v2
+    - name: Build Docker image
+      run: docker build -t nextjs-app .
+   

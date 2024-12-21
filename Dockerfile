@@ -1,36 +1,38 @@
-# Use the official Node.js image as a base
-FROM node:18 AS builder
+# Use an official Node.js runtime as a parent image
+FROM node:18-alpine AS builder
 
-# Set the working directory inside the container
+RUN apk add --no-cache libc6-compat
+
 WORKDIR /app
 
-# Copy package.json and package-lock.json
 COPY package.json package-lock.json ./
 
-# Install dependencies
-RUN npm ci
 
-# Copy the rest of the application code
 COPY . .
 
-# Build the application
-RUN npm run build
+RUN npm i sharp && npm run build
 
-# Use a lightweight web server for serving Next.js
-FROM node:18-alpine AS runner
+FROM node:18-alpine
+
+RUN apk update && apk upgrade && apk add dumb-init && adduser -D nextuser && rm -rf /var/cache/apk/*
+
 
 WORKDIR /app
 
-# Copy only necessary files from the builder stage
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/public ./public
+# Copy the public folder from the project as this is not included in the build process
+COPY --chown=nextuser:nextuser --from=builder /app/public ./public
 
-# Install only production dependencies
-RUN npm ci --only=production
+# Copy the standalone folder inside the .next folder generated from the build process
+COPY --chown=nextuser:nextuser --from=builder /app/.next/standalone ./
 
-# Expose the port the app runs on
+# Copy the static folder inside the .next folder generated from the build process
+COPY --chown=nextuser:nextuser --from=builder /app/.next/static ./.next/static
+
+USER nextuser
+
 EXPOSE 3000
 
-# Start the Next.js application
-CMD ["npm", "start"]
+ENV HOST=0.0.0.0 PORT=3000 NODE_ENV=production
+
+# Start the application
+CMD ["dumb-init","node","server.js"]

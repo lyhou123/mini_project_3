@@ -8,7 +8,7 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    environment: production # Replace with your actual environment name
+    environment: DOCKER_USERNAME # Replace with your actual environment name
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3

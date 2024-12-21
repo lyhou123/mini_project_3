@@ -10,11 +10,14 @@ COPY package.json package-lock.json ./
 
 COPY . .
 
-RUN npm i sharp && npm run build
+RUN npm i sharp
+
+
+RUN npm run build
 
 FROM node:18-alpine
 
-RUN apk update && apk upgrade && apk add dumb-init && adduser -D nextuser && rm -rf /var/cache/apk/*
+RUN apk update && apk upgrade && apk add dumb-init && adduser -D nextuser
 
 
 WORKDIR /app
